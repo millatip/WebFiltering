@@ -7,6 +7,23 @@
    } else {
        header("location: login.php");
    }
+
+   if(isset($_POST["submit"])){
+        $nim = $_POST['nim'];
+        $nama = $_POST['nama'];
+        $gender = $_POST['gender'];
+        $prodi = $_POST['prodi'];
+
+        $query = "INSERT INTO mhs(nim, nama, gender, prodi) VALUES ('$nim', '$nama','$gender', '$prodi')";
+        if($conn->query($query)){
+            echo '<script language="javascript">';
+            echo 'alert("message successfully sent")';
+            echo '</script>';
+            header("location: admin.php");
+        } else {
+            echo "Error : ".$conn->error;
+        }
+   }
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +96,7 @@
 
         <br>
         <!-- Sekalian bikin hlm buat tambah data ya :) -->
-        <a href="tambah_mhs.php" class="btn btn-primary">Tambah Data</a>
+        <a href="#addMahasiswaModal" class="btn btn-primary" data-toggle="modal">Tambah Data</a>
     </div>
 
     <!-- Modal -->
@@ -103,8 +120,44 @@
             </div>
         </div>
     </div>
-
-
+    <div id="addMahasiswaModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="" method="POST">
+					<div class="modal-header">						
+						<h4 class="modal-title">Tambah Mahasiswa</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">					
+						<div class="form-group">
+							<label>NIM</label>
+							<input type="text" name="nim" id="nim" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Nama</label>
+							<input type="text" name="nama" id="nama" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Gender</label>
+							<select name="gender" class="form-control form-control-sm">
+                                <option>---Select Gender--</option>
+                                <option>Laki-laki</option>
+                                <option>Perempuan</option>
+                            </select>
+						</div>
+						<div class="form-group">
+							<label>Prodi</label>
+							<input type="text" name="prodi" class="form-control" required>
+						</div>					
+					</div>
+					<div class="modal-footer">
+						<input type="button" name="cancel" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" name="submit" class="btn btn-success" value="Add">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
